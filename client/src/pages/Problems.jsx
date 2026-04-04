@@ -23,7 +23,7 @@ function Problems() {
       setTimeout(() => {
         navigate("/auth/signin");
         setShowLoginMsg(false);
-      }, 3000);
+      }, 500);
       return;
     }
     const res = await fetch(`http://localhost:5000/api/problems/fav/${pid}`,

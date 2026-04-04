@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/", auth, async (req, res) => {
     try {
         const { language, code, testCases, problemId } = req.body;
-        console.log("REQ.USER:", req.user);
+        // console.log("REQ.USER:", req.user);
 
 
         if (!language || !code) {

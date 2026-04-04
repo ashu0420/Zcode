@@ -3,7 +3,7 @@ import { useAuth } from "./AuthContext";
 import { useOutletContext, useNavigate } from "react-router-dom"
 function Discussion() {
 
-    const { user, token } = useAuth();
+    const {  token } = useAuth();
     const { problem } = useOutletContext();
     const [chat, setChat] = useState("");
     const [post, setPost] = useState([]);
@@ -14,7 +14,7 @@ function Discussion() {
             .then(setPost);
     }, [problem._id]);
     const sendChat = async () => {
-        if (!user) return navigate("/auth/signin");
+        if (!token) return navigate("/auth/signin");
         const res = await fetch(`http://localhost:5000/api/problems/${problem._id}/discussion`, {
             method: "POST",
             headers: {
@@ -32,7 +32,7 @@ function Discussion() {
     }
     return <div>Discussion
         <textarea name="" id="" value={chat} onChange={(e) => { setChat(e.target.value) }} placeholder="Type here"></textarea>
-        <button onClick={sendChat}>{user ? "Send" : "Login"}</button>
+        <button onClick={sendChat}>{token ? "Send" : "Login"}</button>
 
         <ul>
             {

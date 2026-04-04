@@ -7,11 +7,20 @@ app.use(cors());
 app.use(express.json());
 const authRoutes = require("./routes/auth");
 const PORT = 5000;
+const http = require('http');
+const { Server } = require('socket.io');
+
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+    },
+});
+
 const problemsRoutes = require("./routes/problems");
 const executeRoutes = require("./routes/execute");
 const submissionRoutes = require("./routes/submissions");
-
-
+const profileRoutes = require("./routes/profile");
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         return console.log("DB IS CONNECTED")
@@ -31,8 +40,50 @@ app.use("/api/problems", problemsRoutes);
 app.use("/api/execute", executeRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use('/api/auth', authRoutes);
+app.use("/api/profile", profileRoutes);
+const Message = require("./models/Message");
+
+const users = {};
+
+io.on("connection", (socket) => {
+    // console.log("User connected:", socket.id);
+    socket.on("register", (userId) => {
+        users[userId] = socket.id;
+        socket.userId = userId;
+    })
+    socket.on("send_message", async ({ toUserId, message }) => {
+        if (!socket.userId) {
+            console.log("User not registered");
+            return;
+        }
+        const fromUserId = socket.userId;
+        const targetSocketId = users[toUserId];
+        const newMessage = await Message.create({
+            from: fromUserId,
+            to: toUserId,
+            message,
+        })
+        if (targetSocketId) {
+            io.to(targetSocketId).emit("receive_message", {
+                message,
+                from: fromUserId,
+                to: toUserId,
+            })
+        }
+        socket.emit("receive_message", {
+            message,
+            from:fromUserId,
+            to:toUserId,
+        });
+
+    });
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected:", socket.id);
+    });
+});
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("Server is running");
 });
