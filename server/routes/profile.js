@@ -11,7 +11,8 @@ router.get('/', auth, async (req, res) => {
     const submissions = await Submission.find({
         user: req.user.userId,
 
-    }).sort({ createdAt: -1 });
+    }).populate("problem", "slug title") 
+        .sort({ createdAt: -1 });
 
     res.json({
         username: user.username,

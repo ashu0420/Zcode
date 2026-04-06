@@ -52,8 +52,12 @@ function MySubmissions() {
                 <ul>
                     {submissions.map((s) => (
                         <li key={s._id}>
-                            <Link to={`../submission/${s._id}`}>
+                            <Link to={`../../submission/${s._id}`}>
                                 {s._id}:
+                            </Link>
+                            {" — "}
+                            <Link to={`../`}>
+                                {s.problem.title}:
                             </Link>
                             <b>Submitted:</b>{" "}
                             {new Date(s.createdAt).toLocaleString()}

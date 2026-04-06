@@ -3,7 +3,7 @@ import Editor from "@monaco-editor/react";
 import { useAuth } from "./AuthContext";
 
 
-function CodeEditor({ testCases, problemId }) {
+function CodeEditor({ testCases, problemId , slug}) {
     const [code, setCode] = useState("");
     const [language, setLanguage] = useState("cpp");
     const [output, setOutput] = useState("");
@@ -30,12 +30,14 @@ function CodeEditor({ testCases, problemId }) {
                 },
                 body: JSON.stringify({
                     problemId,
+                    slug,
                     language,
                     code,
                     testCases,
 
                 }),
             });
+            // console.log
 
             const data = await res.json();
             setOutput(data.verdict);

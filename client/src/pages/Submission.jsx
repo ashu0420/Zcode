@@ -24,6 +24,7 @@ function Submission() {
         <p><b>ID:</b> {solution._id}</p>
         <p><b>Submitted:</b> {new Date(solution.createdAt).toLocaleString()}</p>
         <p><b>Language:</b> {solution.language}</p>
+        {/* <p><b>{solution.tit}</b></p> */}
         <div>
         <h3>Code</h3>
 

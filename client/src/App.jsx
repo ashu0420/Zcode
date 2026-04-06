@@ -19,7 +19,7 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
         <Route path="/problems" element={<Problems />} />
         <Route path="/contests" element={<Contests />} />
         <Route path="/auth" element={<AuthPage />} >
@@ -32,9 +32,9 @@ function App() {
           <Route path="mySubmissions" element={<MySubmissions />} />
           <Route path="allSubmissions" element={<AllSubmissions />} />
           <Route path="discussion" element={<Discussion />} />
-          <Route path="submission/:submissionId" element={ <Submission/>} />
         </Route>
-        
+        <Route path="submission/:submissionId" element={<Submission />} />
+
       </Routes>
     </div>
   );

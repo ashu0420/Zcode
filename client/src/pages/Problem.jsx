@@ -54,7 +54,7 @@ function Problem() {
 
             </div>
             <div>
-                <CodeEditor testCases={problem.testCases} problemId={problem._id} />
+                <CodeEditor testCases={problem.testCases} problemId={problem._id} slug={slug} />
             </div>
         </div>
 

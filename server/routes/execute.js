@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/", auth, async (req, res) => {
     try {
-        const { language, code, testCases, problemId } = req.body;
+        const { language, code, testCases, problemId,slug } = req.body;
         // console.log("REQ.USER:", req.user);
 
 
@@ -118,11 +118,12 @@ router.post("/", auth, async (req, res) => {
             await Submission.create({
                 user: req.user.userId,
                 problem: problemId,
+                slug,
                 language,
                 code,
                 verdict,
             });
-
+            // console.log(slug);
             return res.json({ verdict, ...extra });
         }
 

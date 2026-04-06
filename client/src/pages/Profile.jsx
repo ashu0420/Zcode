@@ -6,7 +6,7 @@ import Chat from './Chat';
 
 
 export default function Profile() {
-    const { setToken, setUserId ,token} = useAuth();
+    const { setToken, setUserId, token } = useAuth();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [submissions, setSubmissions] = useState([]);
@@ -47,24 +47,29 @@ export default function Profile() {
         </div>
         <div>
             <h2>My Submissions</h2>
-            
-                        {submissions.length === 0 ? (
-                            <p>No submissions yet.</p>
-                        ) : (
-                            <ul>
-                                {submissions.map((s) => (
-                                    <li key={s._id}>
-                                        <Link to={`../submission/${s._id}`}>
-                                            {s._id}:
-                                        </Link>
-                                        <b>Submitted:</b>{" "}
-                                        {new Date(s.createdAt).toLocaleString()}
-                                        {" — "}
-                                        <b>Verdict:</b> {s.verdict}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+
+            {submissions.length === 0 ? (
+                <p>No submissions yet.</p>
+            ) : (
+                <ul>
+                    {submissions.map((s) => (
+                        <li key={s._id}>
+                            <Link to={`../submission/${s._id}`}>
+                                {s._id}:
+                            </Link>
+                            {" — "}
+                            <Link to={`../problems/${s.problem.slug}`}>
+                                {/* {console.log()} */}
+                                {s.problem.title}:
+                            </Link>
+                            <b>Submitted:</b>{" "}
+                            {new Date(s.createdAt).toLocaleString()}
+                            {" — "}
+                            <b>Verdict:</b> {s.verdict}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
         <h4>Chat</h4>
         <div style={{ position: "relative" }}>
@@ -94,12 +99,12 @@ export default function Profile() {
                             {u.username}
                         </p>
                     ))}
-                    
+
                 </div>
             )}
             {selectedUser && <Chat selectedUser={selectedUser} setSelectedUser={setSelectedUser} />}
             {/* <div> <Chat /></div> */}
-            
+
         </div>
         <button onClick={handleSignOut}>Sign Out</button>
 
