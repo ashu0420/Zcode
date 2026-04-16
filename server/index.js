@@ -21,6 +21,8 @@ const problemsRoutes = require("./routes/problems");
 const executeRoutes = require("./routes/execute");
 const submissionRoutes = require("./routes/submissions");
 const profileRoutes = require("./routes/profile");
+const contestsRoutes = require("./routes/contests");
+const postsRoutes = require('./routes/posts');
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         return console.log("DB IS CONNECTED")
@@ -41,6 +43,8 @@ app.use("/api/execute", executeRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use('/api/auth', authRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/contests", contestsRoutes);
+app.use("/api/posts", postsRoutes);
 const Message = require("./models/Message");
 
 const users = {};
@@ -79,6 +83,10 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
+        
+        if (socket.userId && users[socket.userId] === socket.id) {
+            delete users[socket.userId];
+        }
         console.log("User disconnected:", socket.id);
     });
 });

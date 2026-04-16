@@ -31,10 +31,10 @@ function Signin() {
             }
             localStorage.setItem("token", data.token);
             localStorage.setItem("userId", data.user.id);
-            localStorage.setItem("user", data.user);
+            localStorage.setItem("username", data.user.username);
             setToken(data.token);
             setUserId(data.user.id);
-            setUser(data.user);
+            setUser(data.user.username);
             navigate("/");
         }
         catch (err) {

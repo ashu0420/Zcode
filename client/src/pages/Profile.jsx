@@ -35,6 +35,7 @@ export default function Profile() {
     const handleSignOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
+        localStorage.removeItem("username");
         setUserId(null);
         setToken(null);
         navigate("/auth/signin");
